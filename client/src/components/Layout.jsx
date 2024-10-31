@@ -7,7 +7,7 @@ import { Filters } from './Filters';
 import { FilmTable } from './FilmLibrary';
 import { FilmForm } from './FilmEdit';
 import { useEffect } from 'react';
-import { LoginForm } from './Auth';
+import { LoginForm, RegisterForm } from './Auth';
 
 import API from '../API.js';
 
@@ -28,6 +28,16 @@ function NotFoundLayout(props) {
       <Row>
         <Col>
           <LoginForm login={props.login} />
+        </Col>
+      </Row>
+    );
+  }
+
+  function RegisterLayout(props) {
+    return (
+      <Row>
+        <Col>
+          <RegisterForm login={props.login} />
         </Col>
       </Row>
     );
@@ -130,4 +140,4 @@ function NotFoundLayout(props) {
     );
   }
   
-  export { GenericLayout, NotFoundLayout, TableLayout, AddLayout, EditLayout, LoginLayout };
+  export { GenericLayout, NotFoundLayout, TableLayout, AddLayout, EditLayout, LoginLayout, RegisterLayout };

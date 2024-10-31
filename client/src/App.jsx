@@ -15,7 +15,7 @@ import { BrowserRouter, Routes, Route, Outlet, Link, useParams, Navigate, useNav
 
 //import FILMS from './films';
 
-import { GenericLayout, NotFoundLayout, TableLayout, AddLayout, EditLayout, LoginLayout } from './components/Layout';
+import { GenericLayout, NotFoundLayout, TableLayout, AddLayout, EditLayout, LoginLayout, RegisterLayout } from './components/Layout';
 import API from './API.js';
 
 function App() {
@@ -122,6 +122,16 @@ function AppWithRouter(props) {
     }
   };
 
+  const handleRegister = async (credentials) => {
+    try {
+      const user = await API.createUser(credentials);
+      setUser(user);
+      setLoggedIn(true);
+    } catch (err) {
+      throw err;
+    }
+  };
+
   /**
    * This function handles the logout process.
    */ 
@@ -192,6 +202,8 @@ function AppWithRouter(props) {
             <Route path="*" element={<NotFoundLayout />} />
           </Route>
           <Route path="/login" element={!loggedIn ? <LoginLayout login={handleLogin} /> : <Navigate replace to='/' />} />
+          <Route path="/register" element={<RegisterLayout register={handleRegister} />} />
+
         </Routes>
       </Container>
   );

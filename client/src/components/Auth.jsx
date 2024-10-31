@@ -56,8 +56,80 @@ function LoginForm(props) {
         </Form>
       </Col>
       <Col xs={4}></Col>
+    
+      <Row>
+        <Col xs={4}></Col>
+        <Col xs={4}>
+          <h3 className="text-center">Don't have an account? <RegisterButton /></h3>
+        </Col>
+        <Col xs={4}></Col>
+      </Row>
     </Row>
 
+    
+
+  )
+};
+
+
+
+function RegisterForm(props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const credentials = { username, password };
+
+    if (!username) {
+      setErrorMessage('Username cannot be empty');
+    } else if (!password) {
+      setErrorMessage('Password cannot be empty');
+    } else {
+      props.register(credentials)
+        .then( () => navigate( "/" ) )
+        .catch((err) => { 
+          setErrorMessage(err.error); 
+        });
+    }
+  };
+
+  return (
+    <>
+      <Row>
+        <Col xs={4}></Col>
+        <Col xs={4}>
+          <h1 className="pb-3">Register</h1>
+
+          <Form onSubmit={handleSubmit}>
+            {errorMessage? <Alert dismissible onClose={() => setErrorMessage('')} variant="danger">{errorMessage}</Alert> : null}
+            <Form.Group className="mb-3">
+              <Form.Label>email</Form.Label>
+              <Form.Control
+                type="string"
+                value={username} placeholder=""
+                onChange={(ev) => setUsername(ev.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={password} placeholder=""
+                onChange={(ev) => setPassword(ev.target.value)}
+              />
+            </Form.Group>
+            <Button className="mt-3" type="submit">Register</Button>
+          </Form>
+        </Col>
+        <Col xs={4}></Col>
+      </Row>
+    </>
   )
 };
 
@@ -74,4 +146,11 @@ function LoginButton(props) {
   )
 }
 
-export { LoginForm, LogoutButton, LoginButton };
+function RegisterButton(props) {
+  const navigate = useNavigate();
+  return (
+    <Button variant="outline-dark" onClick={() => navigate('/register')}>Register</Button>
+  )
+}
+
+export { LoginForm, LogoutButton, LoginButton, RegisterButton, RegisterForm };
