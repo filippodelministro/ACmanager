@@ -87,7 +87,7 @@ function RegisterForm(props) {
     const credentials = { username, password };
 
     if (!username) {
-      setErrorMessage('Username cannot be empty');
+      setErrorMessage('Username cannot be empty!');
     } else if (!password) {
       setErrorMessage('Password cannot be empty');
     } else {

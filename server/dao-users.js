@@ -49,3 +49,40 @@ exports.getUser = (email, password) => {
     });
   });
 };
+
+
+exports.createUser = (credentials) => {
+  return new Promise((resolve, reject) => {
+    const sqlCheck = 'SELECT * FROM users WHERE name=?';
+    const sqlInsert = 'INSERT INTO users (email, name, hash, salt) VALUES (?, ?, ?, ?)';
+  
+    console.log("[daousers.js]> Check if user exists:", credentials);
+
+    const username = credentials.username;
+    const password = credentials.password;
+
+    // console.log("[daousers.js]> usernmae:", username);
+    // console.log("[daousers.js]> passowrd:", password);
+
+    db.get(sqlCheck, [username], (err, row) => {
+      if (err) {
+        console.error("Error querying database for user:", err);
+        return reject(err);
+      } else if (row) {
+        console.log("User already exists:", username);
+        return resolve(false); // User already exists
+      }
+
+      // User doesn't exist, so we can insert a new user
+      db.run(sqlInsert, [username, username, password, password], function(err) {
+        if (err) {
+          console.error("Error inserting new user:", err);
+          return reject(err);
+        }
+        
+        console.log("New user created with ID:", this.lastID);
+        return resolve(true); // User created successfully
+      });
+    });
+  });
+};

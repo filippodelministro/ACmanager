@@ -37,7 +37,7 @@ function NotFoundLayout(props) {
     return (
       <Row>
         <Col>
-          <RegisterForm login={props.login} />
+          <RegisterForm register={props.register} />
         </Col>
       </Row>
     );

@@ -359,7 +359,24 @@ app.delete('/api/sessions/current', (req, res) => {
   });
 });
 
+// POST /api/create-user
+app.post('/api/create-user', async (req, res) => {
+  const { credentials } = req.body;
 
+  console.log("[index.js]>", credentials);
+
+  try {
+    const newUser = await userDao.createUser(credentials);
+    if (newUser) {
+      res.status(201).json({ message: 'User created successfully', user: newUser });
+    } else {
+      res.status(409).json({ error: 'User already exists' });
+    }
+  } catch (err) {
+    console.error("Error in user creation:", err);
+    res.status(500).json({ error: 'Database error while creating user' });
+  }
+});
 
 // Activating the server
 const PORT = 3001;

@@ -151,5 +151,22 @@ const logOut = async() => {
   )
 }
 
-const API = { getFilms, updateFilm, addFilm, deleteFilm, logIn, getUserInfo, logOut };
+const createUser = async (credentials) => {
+  const response = await fetch(SERVER_URL + 'create-user', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({credentials}), // Ensure keys match backend
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
+};
+
+
+const API = { getFilms, updateFilm, addFilm, deleteFilm, logIn, getUserInfo, logOut, createUser };
 export default API;
